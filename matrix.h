@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-template <typename T>
+template <typename T, int>
 class matrix
 {
 	T** matr;
@@ -19,8 +19,83 @@ public:
 
 	void set_size(int size_P) { size = size_P; }
 
+
+	void print()
+	{
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				cout << matr[i][j] << '\t';
+			} 
+			cout << '\n';
+		}
+	}
+
+	void fill_by_user()
+	{
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				cin << matr[i][j];
+			} 
+		}
+	}
+
+	void fill_random()
+	{
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				matr[i][j] = rand() % 100;
+			}
+		}
+	}
+
+	T find_max()
+	{
+		T max = matr[0][0];
+
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				if (matr[i][j] > max)
+				{
+					max = matr[i][j];
+				}
+			}
+		}
+
+		return max;
+	}
+
+	T find_min()
+	{
+		T min = matr[0][0];
+
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				if (matr[i][j] < min)
+				{
+					min = matr[i][j];
+				}
+			}
+		}
+
+		return min;
+	}
+
+	
+
+
 	const T** get_matr() { return matr; }
-	int get_size() { return size; }
+
+	T** get_size() { return size; }
 
 };
 

@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-template <typename T, int>
+template <typename T = int, int size = 2>
 class matrix
 {
 	T** matr;
@@ -10,9 +10,17 @@ class matrix
 
 public:
 
-	void set_matrix(const T** obj) { for (int i = 0; i < size; i++) { delete[] matr[i]; }
+	matrix() : matrix(nullptr, 2) { }
+	matrix(const T** obj) : matrix(obj, strlen(obj)) { }
+	matrix(const T** obj, int size_P) : size{size_P}
+	{
+		matr = new T * [size];
+		for (int i = 0; i < size; i++) { matr[i] = new T[size]; }
+	}
+
+	void set_matrix(T** obj) { for (int i = 0; i < size; i++) { delete[] matr[i]; }
 		delete[] matr;
-		size = strlen(matr);
+		size = sizeof(obj)/4;
 		matr = new T * [size];
 		for (int i = 0; i < size; i++) { matr[i] = new T[size]; }
 		for (int i = 0; i < size; i++) { for (int j = 0; j < size; j++) { matr[i][j] = obj[i][j]; } } }
@@ -26,7 +34,7 @@ public:
 		{
 			for (int j = 0; j < size; j++)
 			{
-				cout << matr[i][j] << '\t';
+				cout << matr[i][j] << '\t'; 
 			} 
 			cout << '\n';
 		}
@@ -90,9 +98,10 @@ public:
 		return min;
 	}
 
-	T** operator+(const matrix<T, int>** obj)
+	T** operator+(const matrix& obj)
 	{
-		T** matr_buff;
+		T** matr_buff = new T * [size];
+		for (int i = 0; i < size; i++) { matr_buff[i] = new T[size]; }
 
 		for (int i = 0; i < size; i++) { matr_buff[i] = new T[size]; }
 
@@ -107,9 +116,10 @@ public:
 		return matr_buff;
 	}
 
-	T** operator-(const matrix<T, int>** obj)
+	T** operator-(const matrix& obj)
 	{
-		T** matr_buff;
+		T** matr_buff = new T * [size];
+		for (int i = 0; i < size; i++) { matr_buff[i] = new T[size]; }
 
 		for (int i = 0; i < size; i++) { matr_buff[i] = new T[size]; }
 
@@ -118,6 +128,27 @@ public:
 			for (int j = 0; j < size; j++)
 			{
 				matr_buff[i][j] = matr[i][j] - obj.matr[i][j];
+			}
+		}
+
+		return matr_buff;
+	}
+
+	T** operator*(const matrix& obj)
+	{
+		T** matr_buff = new T * [size];
+		for (int i = 0; i < size; i++) { matr_buff[i] = new T[size]; }
+
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				matr_buff[i][j] = 0;
+
+				for (int k = 0; k < size; k++)
+				{
+					matr_buff[i][j] += matr[i][k] * obj.matr[k][j];
+				}
 			}
 		}
 

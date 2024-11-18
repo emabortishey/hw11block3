@@ -90,7 +90,39 @@ public:
 		return min;
 	}
 
-	
+	T** operator+(const matrix<T, int>** obj)
+	{
+		T** matr_buff;
+
+		for (int i = 0; i < size; i++) { matr_buff[i] = new T[size]; }
+
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				matr_buff[i][j] = matr[i][j] + obj.matr[i][j];
+			}
+		}
+
+		return matr_buff;
+	}
+
+	T** operator-(const matrix<T, int>** obj)
+	{
+		T** matr_buff;
+
+		for (int i = 0; i < size; i++) { matr_buff[i] = new T[size]; }
+
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				matr_buff[i][j] = matr[i][j] - obj.matr[i][j];
+			}
+		}
+
+		return matr_buff;
+	}
 
 
 	const T** get_matr() { return matr; }
